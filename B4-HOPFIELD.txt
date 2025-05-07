@@ -1,0 +1,44 @@
+import numpy as np
+
+# Input vectors as NumPy arrays
+x1 = np.array([[1, 1, 1, 1]])
+x2 = np.array([[1, -1, -1, 1]])
+x3 = np.array([[-1, 1, -1, -1]])
+x4 = np.array([[1, -1, -1, -1]])
+
+# Transpose and outer products
+w1 = np.dot(x1.T, x1)
+w2 = np.dot(x2.T, x2)
+w3 = np.dot(x3.T, x3)
+w4 = np.dot(x4.T, x4)
+
+# Weight matrix
+W = w1 + w2 + w3 + w4
+print("W:\n", W)
+
+# Make diagonal zero
+def make_diagonal_zero(matrix):
+    matrix = matrix.copy()
+    np.fill_diagonal(matrix, 0)
+    return matrix
+    
+W_rev = make_diagonal_zero(W)
+print("W with zero diagonal:\n", W_rev)
+
+# Test recall
+xt1 = np.dot(x1, W_rev)
+print("xt1:\n", xt1)
+
+# Activation function
+def activate(x):
+    return np.where(x >= 0, 1, -1)
+
+
+xt1_act = activate(xt1)
+print("Activated xt1:\n", xt1_act)
+
+# Test match
+if np.array_equal(x1, xt1_act):
+    print("testing complete")
+else:
+    print("testing failed")

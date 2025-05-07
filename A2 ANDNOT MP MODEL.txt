@@ -1,0 +1,45 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define ANDNOT Functiom
+def ANDNOT(x1,x2):
+    w1=1
+    w2=-1
+    threshold = 1
+    Yin = w1*x1 + w2*x2
+    if Yin>=threshold:
+        return 1
+    else:
+        return 0
+
+#Define Input Values
+inputs=[(0,0),(0,1),(1,0),(1,1)]
+
+for x1,x2 in inputs:
+    result = ANDNOT(x1,x2)
+    print(f"ANDNOT(x1,x2)={result}") 
+
+results = [ANDNOT(x1,x2) for x1,x2 in inputs] #This list comprehension collects all results for plotting.
+print("\nResult",result)
+
+# Plot the points with different colors for 0 and 1 results
+plt.figure(figsize=(10,6,))
+for (x1, x2), result in zip(inputs, results):
+    color='blue' if result==1 else 'red'
+    plt.scatter(x1,x2,color=color,s=100)
+    plt.text(x1+0.05,x2+0.05,f"{result}",fontsize=12)
+    
+# plot the decision boundary
+x=np.linspace(-2,2,2)
+y=x-0-0.5
+plt.plot(x,y,'y--', label="Decision boundary(x2=x1-0.5)")
+plt.xlabel("x1")
+plt.ylabel("x2")
+plt.title("ANDNOT Function with Decision Boundary")
+plt.xlim(-2,2)
+plt.ylim(-2,2)
+# plt.xticks([0,1])
+# plt.yticks([0,1])
+plt.legend()
+plt.grid(True)
+plt.show()

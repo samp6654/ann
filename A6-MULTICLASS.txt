@@ -1,0 +1,58 @@
+import tensorflow as tf
+from tensorflow.keras import datasets, layers, models
+import matplotlib.pyplot as plt
+import numpy as np
+
+(X_train, y_train), (X_test,y_test) = datasets.cifar10.load_data()
+X_train.shape
+
+X_test.shape
+
+y_train.shape
+
+y_train = y_train.reshape(-1,)
+y_train.shape
+y_test = y_test.reshape(-1,)
+y_test.shape
+
+classes = ["airplane","automobile","bird","cat","deer","dog","frog","horse","ship","truck"]
+def plot_sample(X, y, index):
+  plt.figure(figsize = (15,2))
+  plt.imshow(X[index])
+  plt.xlabel(classes[y[index]])
+
+plot_sample(X_train,y_train,0)
+
+plot_sample(X_train,y_train,1)
+
+X_train = X_train / 255.0
+X_test = X_test / 255.0
+
+ann = models.Sequential([
+layers.Flatten(input_shape=(32,32,3)),
+layers.Dense(100, activation='relu'),
+layers.Dense(100, activation='relu'),
+layers.Dense(10, activation='softmax')
+])
+
+ann.summary()
+
+import pydot
+from tensorflow import keras
+keras.utils.plot_model(ann)
+
+ann.compile(optimizer='SGD',loss='sparse_categorical_crossentropy',metrics=['accuracy'])
+ann.fit(X_train, y_train, epochs=5)
+
+from sklearn.metrics import confusion_matrix , classification_report
+import numpy as np
+y_pred = ann.predict(X_test)
+y_pred_classes = [np.argmax(element) for element in y_pred]
+print("Classification Report: \n", classification_report(y_test, y_pred_classes))
+
+cm =confusion_matrix(y_test,y_pred_classes,)
+
+import seaborn as sns
+
+sns.heatmap(cm,annot=True,fmt='d',cmap='Blues',xticklabels=["airplane","automobile","bird","cat","deer","dog","frog","horse","ship","truck"],
+            yticklabels=["airplane","automobile","bird","cat","deer","dog","frog","horse","ship","truck"])

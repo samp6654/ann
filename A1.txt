@@ -1,0 +1,112 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def Sigmoid(x):
+    return 1/(1+np.exp(-x))
+
+def plot_sig():
+
+    x = np.linspace(-10,10,1000)
+    plt.figure(figsize=(10,7))
+    plt.plot(x,Sigmoid(x),label='Sigmoid')
+    plt.xlabel("Input")
+    plt.ylabel("Output")
+    plt.title("Sigmoid Activation Function")
+    plt.legend()
+
+    #plt.grid()
+    plt.xticks(np.arange(-10, 11, 2))  # X-axis: from -10 to 10 with step of 2
+    plt.yticks(np.arange(0, 1.1, 0.1))  # Y-axis: from 0 to 1 with step of 0.1
+    plt.grid(True, which='both', linestyle='--', linewidth=0.5)  # Optional: style
+    
+    plt.show()
+
+plot_sig()
+
+
+def Softmax(x): # x is 1D / 2D array
+    exp_x = np.exp(x-np.max(x))
+    return exp_x/exp_x.sum(axis=0)
+
+def plot_soft():
+    x = np.linspace(-10,10,100)
+    plt.figure(figsize=(10,6))
+    plt.plot(x, Softmax(x), label = "Softmax")
+    plt.xlabel("Input")
+    plt.ylabel("Output")
+    plt.title("Softmax Activation Function")
+    plt.legend()
+    plt.grid(True)
+    plt.show
+
+plot_soft()
+
+
+def tanh(x):
+    return np.tanh(x)
+
+def plot_tanh():
+    x = np.linspace(-10,10,100)
+    y = tanh(x)
+    plt.figure(figsize=(10,8))
+    plt.plot(x,y,label="Tanh")
+    plt.xlabel("Input")
+    plt.ylabel("Output")
+    plt.title("Tanh Activation Function")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+plot_tanh()
+
+def Relu(x):
+    return np.maximum(0,x)
+
+def plot_Relu():
+    x = np.linspace(-10,10,100)
+    y = Relu(x)
+    plt.figure(figsize=(10,6))
+    plt.plot(x,y,label="ReLU")
+    plt.xlabel("Input")
+    plt.ylabel("Output")
+    plt.title("ReLU Activation Function")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+plot_Relu()
+
+def Leaky_Relu(x, alpha = 0.1):
+    return np.where(x>0, x, alpha*x)
+
+def plot_leakyrelu():
+    x = np.linspace(-10,10,100)
+    y = Leaky_Relu(x, alpha = 0.1)
+    plt.figure(figsize=(10,6))
+    plt.plot(x,y,label="Leaky_ReLU")
+    plt.xlabel("Input")
+    plt.ylabel("Output")
+    plt.title("Leaky ReLU Activation Function")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+plot_leakyrelu()
+
+
+def Step(x):
+    return np.where(x>=0,1,0)
+
+def plot_step():
+    x = np.linspace(-10,10,1000)
+    y = Step(x)
+    plt.figure(figsize=(10,6))
+    plt.plot(x,y,label="Step")
+    plt.xlabel("Input")
+    plt.ylabel("Output")
+    plt.title("Step Activation Function")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+plot_step()

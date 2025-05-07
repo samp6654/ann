@@ -1,0 +1,46 @@
+from tensorflow.keras.datasets import mnist
+
+(x_train,y_train),(x_test,y_test)= mnist.load_data()
+
+print(x_train.shape)
+print(y_train.shape)
+print(x_test.shape)
+print(y_test.shape)
+
+import matplotlib.pyplot as plt
+def show_img(x,y,ind):
+  plt.figure(figsize=(6,4))
+  plt.imshow(x[ind],cmap="gray")
+  plt.xlabel(y[ind])
+show_img(x_train,y_train,0)
+
+x_train =x_train.reshape(60000,784)
+x_test = x_test.reshape(10000,784)
+x_train.shape
+
+x_train = x_train /255
+x_test = x_test /255
+
+import tensorflow.keras as keras
+num_categories = 10
+
+y_train = keras.utils.to_categorical(y_train,num_categories)
+y_test = keras.utils.to_categorical(y_test,num_categories)
+
+y_train[5]
+
+from tensorflow.keras.models import Sequential
+model = Sequential()
+
+from tensorflow.keras.layers import Dense
+
+model.add(Dense(units=512,activation='relu',input_shape=(784,)))
+
+model.add(Dense(units=512,activation='relu'))
+
+model.add(Dense(units=10,activation='softmax'))
+model.summary()
+
+model.compile(loss='categorical_crossentropy',metrics=['accuracy'])
+
+model.fit(x_train,y_train,epochs=10,verbose=1,validation_data=(x_test,y_test))
